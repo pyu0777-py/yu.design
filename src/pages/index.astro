@@ -43,8 +43,8 @@
         .nav-links a:hover::after { transform: scaleX(1); }
 
         /* === 通用区块样式 === */
-        section { padding: 100px 5%; }
-        .container { max-width: 1200px; margin: 0 auto; }
+        section { padding: 100px clamp(24px, 5vw, 64px); }
+        .container { max-width: 1400px; margin: 0 auto; }
         .section-title { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; }
         .section-subtitle { color: #666; margin-bottom: 50px; font-size: 1.1rem; }
         .highlight { color: #ff9900; }
@@ -200,111 +200,6 @@
             transition: all 0.3s ease; 
         }
 
-        /* === 7. 精选瀑布流 === */
-        #curated-gallery {
-            background: linear-gradient(135deg, #0f0f0f 0%, #171717 100%);
-            color: #fff;
-            padding-top: 90px;
-            padding-bottom: 110px;
-        }
-        .curated-intro {
-            max-width: 760px;
-            margin: 0 auto 36px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .curated-masonry {
-            width: min(100%, 1120px);
-            margin: 0 auto;
-            padding: 0 clamp(8px, 2vw, 24px);
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-            align-items: start;
-        }
-        .curated-item {
-            display: block;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            border-radius: 18px;
-            background: #222;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.22);
-            opacity: 0;
-            transform: translateY(24px) scale(0.98);
-            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, opacity 0.7s ease;
-            min-height: 220px;
-            aspect-ratio: 4 / 5;
-        }
-        .curated-item.wide {
-            grid-column: span 2;
-            aspect-ratio: 16 / 9;
-        }
-        .curated-item.tall {
-            grid-row: span 2;
-            aspect-ratio: 3 / 5;
-            min-height: 360px;
-        }
-        .curated-item.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        .curated-item::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.68) 100%);
-            pointer-events: none;
-        }
-        .curated-item img {
-            display: block;
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            transition: transform 0.7s ease, filter 0.7s ease;
-            will-change: transform;
-        }
-        .curated-item:hover {
-            transform: translateY(-7px) rotate(-0.4deg) scale(1.01);
-            box-shadow: 0 16px 32px rgba(0,0,0,0.3);
-        }
-        .curated-item:hover img {
-            transform: scale(1.05);
-            filter: saturate(1.08);
-        }
-        .curated-meta {
-            position: absolute;
-            left: 16px;
-            right: 16px;
-            bottom: 16px;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            transition: transform 0.35s ease, opacity 0.35s ease;
-        }
-        .curated-meta span {
-            display: inline-flex;
-            width: fit-content;
-            padding: 5px 10px;
-            background: rgba(255, 153, 0, 0.9);
-            color: #111;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-        }
-        .curated-meta strong {
-            font-size: 0.95rem;
-            color: #fff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.45);
-        }
-        .curated-item:hover .curated-meta {
-            transform: translateY(-4px);
-        }
         .btn:hover { background: #fff; transform: scale(1.05); box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); }
         .btn:active { transform: scale(0.98); }
 
@@ -317,16 +212,11 @@
             .massive-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
             .project-thumb { height: 180px; }
         }
-        @media (max-width: 900px) {
-            .curated-masonry { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .curated-item.wide { grid-column: span 2; }
-        }
         @media (max-width: 480px) {
             .massive-grid { grid-template-columns: 1fr; gap: 15px; }
             .project-card { margin-bottom: 10px; }
             .hero-stats .stat-item h3 { font-size: 2.2rem; }
             .ai-stats { grid-template-columns: 1fr; gap: 20px; }
-            .curated-masonry { column-count: 1; }
         }
 
         /* === 编辑模式提示 === */
@@ -626,17 +516,6 @@
         </div>
     </section>
 
-    <!-- 7. 精选瀑布流 -->
-    <section id="curated-gallery">
-        <div class="container">
-            <div class="curated-intro">
-                <h2 class="section-title" style="color:#fff;">随机精选<span class="highlight">灵感图</span></h2>
-                <p class="section-subtitle" style="color:#aaa;">从产品场景、色彩氛围与主图节奏中提炼出的视觉灵感，带有轻微错位与悬停反馈。</p>
-            </div>
-            <div class="curated-masonry" id="curatedMasonry"></div>
-        </div>
-    </section>
-
     <!-- 编辑模式指示器 -->
     <div id="edit-mode-indicator">编辑模式已开启</div>
 
@@ -793,62 +672,6 @@
                 }
             });
         });
-
-        const curatedMasonry = document.getElementById('curatedMasonry');
-        const curatedImages = [
-            { src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80', title: '极简科技感主图', tag: '主图灵感' },
-            { src: 'https://images.unsplash.com/photo-1495707902641-75cac588d2e9?auto=format&fit=crop&w=900&q=80', title: '高端消费体验', tag: '场景氛围' },
-            { src: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=900&q=80', title: '产品细节聚焦', tag: '细节表达' },
-            { src: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80', title: '生活方式场景', tag: '使用场景' },
-            { src: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80', title: '色彩对比节奏', tag: '视觉节奏' },
-            { src: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80', title: '未来感产品感', tag: '品牌气质' },
-            { src: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80', title: '极简黑白留白', tag: '留白设计' },
-            { src: 'https://images.unsplash.com/photo-1487412912498-0447578fcca8?auto=format&fit=crop&w=900&q=80', title: '轻奢材质质感', tag: '材质表达' },
-            { src: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80', title: '清爽色彩搭配', tag: '配色参考' },
-            { src: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80', title: '功能卖点分层', tag: '信息层级' },
-            { src: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=900&q=80', title: '动态视觉节奏', tag: '动感构图' },
-            { src: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80', title: '科技与人文融合', tag: '品牌故事' }
-        ];
-
-        function shuffleArray<T>(array: T[]): T[] {
-            const result = [...array];
-            for (let i = result.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [result[i], result[j]] = [result[j], result[i]];
-            }
-            return result;
-        }
-
-        function renderCuratedGallery() {
-            if (!curatedMasonry) return;
-            const selected = shuffleArray(curatedImages).slice(0, 12);
-            curatedMasonry.innerHTML = selected.map((image, index) => {
-                const sizeClass = index % 6 === 0 ? 'wide' : index % 7 === 0 ? 'tall' : '';
-                return `
-                    <article class="curated-item ${sizeClass}" style="transition-delay:${index * 70}ms;">
-                        <img src="${image.src}" alt="${image.title}">
-                        <div class="curated-meta">
-                            <span>${image.tag}</span>
-                            <strong>${image.title}</strong>
-                        </div>
-                    </article>
-                `;
-            }).join('');
-
-            const items = curatedMasonry.querySelectorAll<HTMLElement>('.curated-item');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12 });
-
-            items.forEach(item => observer.observe(item));
-        }
-
-        renderCuratedGallery();
 
         if (chartPreview) {
             chartPreview.addEventListener('click', () => {
