@@ -10,5 +10,5 @@ export default defineConfig({
   site: 'https://pangyu.online',
 
   integrations: [mdx(), sitemap()],
-  adapter: vercel(),
+  adapter: vercel()
 });
